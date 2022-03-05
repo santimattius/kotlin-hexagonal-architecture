@@ -12,10 +12,12 @@ class ProductPostController(
     private val productCreator: ProductCreator
 ) {
 
-    suspend fun post(id: String, name: String, price: Double): Pair<HttpStatusCode, Product?> {
+    suspend fun post(body: Product): Pair<HttpStatusCode, Product?> {
         return try {
             val result = productCreator.create(
-                id = ProductId(id), name = ProductName(name), price = ProductPrice(price)
+                id = ProductId(body.id),
+                name = ProductName(body.name),
+                price = ProductPrice(body.price)
             )
             result.fold(
                 onSuccess = { HttpStatusCode.Created to it.asDTO() },

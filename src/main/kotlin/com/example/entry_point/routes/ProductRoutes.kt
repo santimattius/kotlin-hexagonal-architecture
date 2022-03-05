@@ -27,14 +27,14 @@ fun Route.getProduct() {
         if (productId == null) {
             call.respond(HttpStatusCode.BadRequest, "ProductId required")
         } else {
-            val result = controller.get(id = productId)
-            call.respond(result.first, result.second ?: "{}")
+            val (code, response) = controller.get(id = productId)
+            call.respond(code, response ?: "{}")
         }
     }
 
     get("/v1/product/all") {
-        val result = controller.get()
-        call.respond(result.first, result.second)
+        val (code, response) = controller.get()
+        call.respond(code, response)
     }
 }
 
@@ -44,8 +44,8 @@ fun Route.postProduct() {
 
     post("/v1/product") {
         val product = call.receive<Product>()
-        val result = controller.post(id = product.id, name = product.name, price = product.price)
-        call.respond(result.first, result.second ?: "{}")
+        val (code, response) = controller.post(product)
+        call.respond(code, response ?: "{}")
     }
 }
 

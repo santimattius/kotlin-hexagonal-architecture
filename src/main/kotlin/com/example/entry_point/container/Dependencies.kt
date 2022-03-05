@@ -33,6 +33,7 @@ private val domain = module {
 private val infrastructure = module {
     //Product
     single<ProductRepository> { InMemoryProductRepository() }
+//    single<ProductRepository> { MySqlProductRepository() }
     factory {
         ProductGetController(
             productSearcher = get<ProductSearcher>(),

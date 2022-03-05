@@ -8,7 +8,10 @@ class NotificationPostController(
     private val notificationSender: NotificationSender
 ) {
 
-    suspend fun post(text: String, type: String): Result<String> {
-        return notificationSender(text = NotificationText(text), type = NotificationType.from(type))
+    suspend fun post(body: Notification): Result<String> {
+        return notificationSender(
+            text = NotificationText(body.text),
+            type = NotificationType.from(body.type)
+        )
     }
 }

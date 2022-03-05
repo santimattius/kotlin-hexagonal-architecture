@@ -32,7 +32,7 @@ class ProductGetController(
         return try {
             val result = productCatalog.list()
             result.fold(
-                onSuccess = { HttpStatusCode.Created to it.asDTOs() },
+                onSuccess = { HttpStatusCode.OK to it.asDTOs() },
                 onFailure = { HttpStatusCode.BadRequest to emptyList() }
             )
         } catch (ex: IllegalArgumentException) {

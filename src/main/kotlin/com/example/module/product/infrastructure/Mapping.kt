@@ -6,11 +6,11 @@ import com.example.module.product.domain.ProductName
 import com.example.module.product.domain.ProductPrice
 import com.example.module.product.infrastructure.Product as ProductEntity
 
-internal fun MutableList<ProductEntity>.asDomainProducts(): List<Product> {
-    return this.map { it.asDomainProducts() }
+internal fun MutableList<ProductEntity>.asDomainProduct(): List<Product> {
+    return this.map { it.asDomainProduct() }
 }
 
-internal fun ProductEntity.asDomainProducts() = Product.create(
+internal fun ProductEntity.asDomainProduct() = Product.create(
     id = ProductId(value = this.id),
     name = ProductName(value = this.name),
     price = ProductPrice(value = this.price)

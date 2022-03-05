@@ -1,7 +1,7 @@
 package com.example.module.product.infrastructure.repositories
 
 import com.example.module.product.domain.*
-import com.example.module.product.infrastructure.asDomainProducts
+import com.example.module.product.infrastructure.asDomainProduct
 import com.example.module.product.infrastructure.asEntity
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -24,15 +24,18 @@ class InMemoryProductRepository : ProductRepository {
 
     override suspend fun all(): List<Product> {
         return latestProductMutex.withLock {
-            this.productCached.asDomainProducts()
+            this.productCached.asDomainProduct()
         }
     }
 
-    override suspend fun find(productId: ProductId): Product? {
+    override suspend fun find(productId: ProductId): Result<Product> {
         return latestProductMutex.withLock {
-            this.productCached
-                .firstOrNull { it.id == productId() }
-                ?.asDomainProducts()
+            val product = this.productCached.firstOrNull { it.id == productId() }
+            if (product == null) {
+                Result.failure(ProductNotExists(id = productId()))
+            } else {
+                Result.success(product.asDomainProduct())
+            }
         }
     }
 
