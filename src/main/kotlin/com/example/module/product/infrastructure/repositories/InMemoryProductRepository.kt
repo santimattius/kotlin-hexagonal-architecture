@@ -18,6 +18,10 @@ class InMemoryProductRepository : ProductRepository {
     // Cache of the latest products
     private var productCached: MutableList<ProductEntity> = mutableListOf()
 
+    init {
+        productCached.addAll(DatabaseEntityManager.products())
+    }
+
     override suspend fun all(): List<Product> {
         return latestProductMutex.withLock {
             this.productCached.asDomainProducts()
