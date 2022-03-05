@@ -26,11 +26,15 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.insert-koin:koin-core:$koin_version")
     // Koin for Ktor
     implementation("io.insert-koin:koin-ktor:$koin_version")
-    // SLF4J Logger
-    implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
+    implementation("junit:junit:4.13.1")
+    implementation("junit:junit:4.13.1")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }

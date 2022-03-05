@@ -1,4 +1,4 @@
-package com.santimattius.entry_point.controller.notification
+package com.santimattius.entry_point.routes.notification
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*
