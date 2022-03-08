@@ -6,6 +6,7 @@ import com.example.module.product.domain.ProductNotExists
 import com.example.module.product.domain.ProductRepository
 import com.example.module.product.infrastructure.asDomainProduct
 import com.example.module.product.infrastructure.asEntity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.sql.SQLException
@@ -18,9 +19,9 @@ class MySqlProductRepository : ProductRepository {
     // Mutex to make writes to cached values thread-safe.
     private val latestProductMutex = Mutex()
 
-
     override suspend fun all(): List<Product> {
         return latestProductMutex.withLock {
+            timeSimulate()
             DatabaseEntityManager.products().asDomainProduct()
         }
     }
@@ -28,6 +29,7 @@ class MySqlProductRepository : ProductRepository {
     override suspend fun find(productId: ProductId): Result<Product> {
         return latestProductMutex.withLock {
             try {
+                timeSimulate()
                 val product = DatabaseEntityManager.find(id = productId())
                 Result.success(product.asDomainProduct())
             } catch (ex: SQLException) {
@@ -38,6 +40,7 @@ class MySqlProductRepository : ProductRepository {
 
     override suspend fun save(product: Product): Result<Product> {
         return latestProductMutex.withLock {
+            timeSimulate()
             val productSaved = DatabaseEntityManager.save(product.asEntity())
             Result.success(productSaved.asDomainProduct())
         }
@@ -46,6 +49,7 @@ class MySqlProductRepository : ProductRepository {
     override suspend fun update(product: Product): Result<Product> {
         return latestProductMutex.withLock {
             try {
+                timeSimulate()
                 val productUpdated = DatabaseEntityManager.update(product.asEntity())
                 Result.success(productUpdated.asDomainProduct())
             } catch (ex: SQLException) {
@@ -53,6 +57,8 @@ class MySqlProductRepository : ProductRepository {
             }
         }
     }
+
+    private suspend fun timeSimulate() = delay(2_000)
 }
 
 

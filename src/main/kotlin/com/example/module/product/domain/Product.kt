@@ -5,6 +5,11 @@ data class Product(
     val name: ProductName,
     val price: ProductPrice
 ) {
+
+    fun updateName(name: ProductName) = copy(name = name)
+
+    fun updatePrice(price: ProductPrice) = copy(price = price)
+
     companion object {
         /**
          * named constructor

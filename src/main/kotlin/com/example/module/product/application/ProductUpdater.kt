@@ -13,7 +13,9 @@ class ProductUpdater(
         val result = productSearcher.search(id)
         return result.fold(
             onSuccess = {
-                val productUpdate = it.copy(name = name, price = price)
+                val productUpdate = it
+                    .updateName(name = name)
+                    .updatePrice(price = price)
                 repository.update(productUpdate)
                 Result.success(productUpdate)
             },

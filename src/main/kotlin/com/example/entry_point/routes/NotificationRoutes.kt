@@ -18,7 +18,7 @@ fun Route.postNotification() {
 
     post("/v1/notification") {
         val notification = call.receive<Notification>()
-        val result = controller.post(notification.text, notification.type)
+        val result = controller.post(notification)
         call.respondText(result.getOrNull() ?: "Notification not found")
     }
 }

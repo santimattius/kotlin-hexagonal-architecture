@@ -10,8 +10,10 @@ import com.example.module.product.application.ProductSearcher
 import com.example.module.product.application.ProductUpdater
 import com.example.module.product.domain.ProductRepository
 import com.example.module.product.domain.ProductSearchService
+import com.example.module.product.infrastructure.controllers.ProductDeleteController
 import com.example.module.product.infrastructure.controllers.ProductGetController
 import com.example.module.product.infrastructure.controllers.ProductPostController
+import com.example.module.product.infrastructure.controllers.ProductPutController
 import com.example.module.product.infrastructure.repositories.InMemoryProductRepository
 import org.koin.dsl.module
 
@@ -41,6 +43,8 @@ private val infrastructure = module {
         )
     }
     factory { ProductPostController(productCreator = get<ProductCreator>()) }
+    factory { ProductPutController(productUpdater = get<ProductUpdater>()) }
+    factory { ProductDeleteController() }
 
     //Notification
     factory<Notifier> {

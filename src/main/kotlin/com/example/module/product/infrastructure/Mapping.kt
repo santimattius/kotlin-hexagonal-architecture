@@ -10,7 +10,7 @@ internal fun MutableList<ProductEntity>.asDomainProduct(): List<Product> {
     return this.map { it.asDomainProduct() }
 }
 
-internal fun ProductEntity.asDomainProduct() = Product.create(
+internal fun ProductEntity.asDomainProduct() = Product(
     id = ProductId(value = this.id),
     name = ProductName(value = this.name),
     price = ProductPrice(value = this.price)

@@ -25,7 +25,7 @@ data class ProductName(private val value: String) {
 data class ProductPrice(private val value: Double) {
     init {
         check(value > 0) {
-            "price is required!!"
+            "Price invalid!"
         }
     }
 

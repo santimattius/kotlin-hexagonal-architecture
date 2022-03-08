@@ -13,7 +13,7 @@ fun main() {
     }.start(wait = true)
 }
 
-private fun Application.configure() {
+fun Application.configure() {
     configureKoin()
     configureRouting()
     configureSerialization()

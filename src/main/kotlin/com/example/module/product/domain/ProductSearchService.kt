@@ -5,11 +5,10 @@ class ProductSearchService(
 ) {
 
     suspend fun search(id: ProductId): Result<Product> {
-        val product = repository.find(id)
-        return if (product == null) {
-            Result.failure(IllegalArgumentException())
-        } else {
-            Result.success(product)
-        }
+        val result = repository.find(id)
+        return result.fold(
+            onSuccess = { product -> Result.success(product) },
+            onFailure = { Result.failure(ProductNotExists(id())) }
+        )
     }
 }

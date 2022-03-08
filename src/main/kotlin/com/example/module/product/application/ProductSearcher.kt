@@ -2,6 +2,7 @@ package com.example.module.product.application
 
 import com.example.module.product.domain.Product
 import com.example.module.product.domain.ProductId
+import com.example.module.product.domain.ProductNotExists
 import com.example.module.product.domain.ProductRepository
 
 class ProductSearcher(
@@ -10,12 +11,11 @@ class ProductSearcher(
 
     // <editor-fold defaultstate="collapsed" desc="Primera implemetación">
     suspend fun search(id: ProductId): Result<Product> {
-        val product = repository.find(id)
-        return if (product == null) {
-            Result.failure(IllegalArgumentException())
-        } else {
-            Result.success(product)
-        }
+        val result = repository.find(id)
+        return result.fold(
+            onSuccess = { product -> Result.success(product) },
+            onFailure = { Result.failure(ProductNotExists(id())) }
+        )
     }
 
     // </editor-fold>

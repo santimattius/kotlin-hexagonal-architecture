@@ -8,6 +8,7 @@ import io.ktor.util.*
 import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.context.GlobalContext.stopKoin
+import org.koin.core.module.Module
 
 /**
  * koin workaround https://github.com/InsertKoinIO/koin/issues/1257#issuecomment-1000856335
@@ -33,8 +34,8 @@ object KoinPlugin : ApplicationPlugin<Application, KoinApplication, Unit> {
     }
 }
 
-fun Application.configureKoin() {
+fun Application.configureKoin(modules: List<Module> = emptyList()) {
     install(KoinPlugin) {
-        modules(dependencies)
+        modules(dependencies + modules)
     }
 }
