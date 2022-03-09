@@ -16,11 +16,15 @@ class ProductCatalogTest {
     private val productCatalog = ProductCatalog(productRepository)
 
     @Test
-    fun `test empty`() = runBlocking {
+    fun `result is empty when product catalog is empty`() = runBlocking {
+        //Given
         `when`(productRepository.all())
             .thenReturn(emptyList())
+
+        //When
         val products = productCatalog.list()
 
+        //Then
         assertThat(products.isSuccess, IsEqual(true))
         assertThat(products.getOrNull(), IsSame(emptyList()))
     }

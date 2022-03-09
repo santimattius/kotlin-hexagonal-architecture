@@ -6,9 +6,12 @@ import com.example.module.notification.domain.Notifier
 import com.external.gmail.Email
 import com.external.gmail.GmailClient
 
+/**
+ * Notifier adapter for Gmail implementation
+ */
 class EmailNotifier(
-    private val user: String,
-    private val password: String
+    user: String,
+    password: String
 ) : Notifier {
 
     private val gmailClient = GmailClient(user, password)

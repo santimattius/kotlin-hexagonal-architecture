@@ -21,10 +21,10 @@ class ProductSearcher(
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Usando servicios de dominio">
-    /*private val productSearchService = ProductSearchService(repository)
-    suspend fun search(id: ProductId): Result<Product> {
-        return productSearchService.search(id)
-    }*/
+//    private val productSearchService = ProductSearchService(repository)
+//    suspend fun search(id: ProductId): Result<Product> {
+//        return productSearchService.search(id)
+//    }
     // </editor-fold>
 
 }

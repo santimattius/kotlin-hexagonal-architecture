@@ -1,19 +1,19 @@
-package com.example.module.product.application
+package com.example.module.product.domain
 
-import com.example.module.product.domain.ProductNotExists
-import com.example.module.product.domain.ProductRepository
+import com.example.module.product.application.stubProduct
+import com.example.module.product.application.stubProductId
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.hamcrest.core.IsInstanceOf
 import org.junit.Test
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class ProductSearcherTest {
+class ProductSearchServiceTest {
 
     private val repository: ProductRepository = mock()
-    private val productSearcher = ProductSearcher(repository)
+    private val productSearcher = ProductSearchService(repository)
 
     @Test
     fun `verify invoke search from repository when product exists`() {
@@ -22,7 +22,7 @@ class ProductSearcherTest {
             val productId = stubProductId()
             val product = stubProduct(productId)
 
-            `when`(repository.find(productId))
+            Mockito.`when`(repository.find(productId))
                 .thenReturn(Result.success(product))
 
             //When
@@ -40,7 +40,7 @@ class ProductSearcherTest {
             //Given
             val productId = stubProductId()
 
-            `when`(repository.find(productId))
+            Mockito.`when`(repository.find(productId))
                 .thenReturn(Result.failure(ProductNotExists(productId())))
 
             //When
@@ -51,5 +51,4 @@ class ProductSearcherTest {
             assertThat(result.exceptionOrNull(), IsInstanceOf(ProductNotExists::class.java))
         }
     }
-
 }
