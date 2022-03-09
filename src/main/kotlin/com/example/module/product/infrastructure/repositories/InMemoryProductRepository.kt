@@ -1,6 +1,10 @@
 package com.example.module.product.infrastructure.repositories
 
-import com.example.module.product.domain.*
+
+import com.example.module.product.domain.Product
+import com.example.module.product.domain.ProductId
+import com.example.module.product.domain.ProductNotExists
+import com.example.module.product.domain.ProductRepository
 import com.example.module.product.infrastructure.asDomainProduct
 import com.example.module.product.infrastructure.asEntity
 import kotlinx.coroutines.sync.Mutex
@@ -46,7 +50,7 @@ class InMemoryProductRepository : ProductRepository {
         return latestProductMutex.withLock {
             val index = this.productCached.indexOfFirst { it.id == product.id() }
             if (index == -1) {
-                Result.failure(IllegalArgumentException())
+                Result.failure(ProductNotExists(product.id()))
             } else {
                 this.productCached.removeAt(index)
                 this.productCached.add(product.asEntity())

@@ -2,7 +2,7 @@ package com.example.module.product.infrastructure
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
+import java.util.UUID
 
 @Serializable
 data class Product(

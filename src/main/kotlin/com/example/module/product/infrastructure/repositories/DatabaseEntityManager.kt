@@ -2,11 +2,13 @@ package com.example.module.product.infrastructure.repositories
 
 import com.example.module.product.infrastructure.Product
 import java.sql.SQLException
-import java.util.*
+import java.util.UUID
+
 import kotlin.random.Random
 
 object DatabaseEntityManager {
 
+    @Suppress("MagicNumber")
     private val products: MutableList<Product> by lazy {
         (1..10).map {
             Product(

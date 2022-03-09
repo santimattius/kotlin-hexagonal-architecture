@@ -1,4 +1,4 @@
-package com.example.entry_point.plugins
+package com.example.configurations.plugins
 
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier

@@ -8,7 +8,10 @@ class NotificationSender(
     private val notifier: Notifier
 ) {
 
-    suspend operator fun invoke(text: NotificationText, type: NotificationType): Result<String> {
+    suspend operator fun invoke(
+        text: NotificationText,
+        type: NotificationType
+    ): Result<String> {
         return notifier.notify(text, type)
     }
 }

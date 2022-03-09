@@ -10,6 +10,8 @@ class SlackClient(
             """
             Channel: ${message.channel}
             Message: ${message.content}  
+            HookUrl: $hookUrl  
+            Message: $setting
             """
         )
     }

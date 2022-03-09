@@ -235,6 +235,8 @@ exceptions:
       - 'MalformedURLException'
       - 'NumberFormatException'
       - 'ParseException'
+      - 'IllegalArgumentException'
+      - 'SQLException'
     allowedExceptionNameRegex: '_|(ignore|expected).*'
   ThrowingExceptionFromFinally:
     active: true
@@ -569,7 +571,7 @@ style:
   NestedClassesVisibility:
     active: true
   NewLineAtEndOfFile:
-    active: true
+    active: false
   NoTabs:
     active: false
   ObjectLiteralToLambda:

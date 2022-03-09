@@ -6,7 +6,7 @@ import com.example.module.product.domain.ProductName
 import com.example.module.product.domain.ProductPrice
 import com.example.module.product.infrastructure.Product
 import com.example.module.product.infrastructure.asDTO
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 
 class ProductPostController(
     private val productCreator: ProductCreator

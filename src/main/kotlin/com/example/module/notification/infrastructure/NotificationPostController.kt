@@ -9,9 +9,13 @@ class NotificationPostController(
 ) {
 
     suspend fun post(body: Notification): Result<String> {
-        return notificationSender(
-            text = NotificationText(body.text),
-            type = NotificationType.from(body.type)
-        )
+        return try {
+            notificationSender(
+                text = NotificationText(body.text),
+                type = NotificationType.from(body.type)
+            )
+        } catch (ex: IllegalArgumentException) {
+            Result.failure(ex)
+        }
     }
 }

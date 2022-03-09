@@ -1,8 +1,8 @@
 package com.example
 
-import com.example.entry_point.plugins.configureKoin
-import com.example.entry_point.plugins.configureRouting
-import com.example.entry_point.plugins.configureSerialization
+import com.example.configurations.plugins.configureKoin
+import com.example.configurations.plugins.configureRouting
+import com.example.configurations.plugins.configureSerialization
 import io.ktor.client.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

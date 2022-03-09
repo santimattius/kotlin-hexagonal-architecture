@@ -1,12 +1,15 @@
-package com.example.entry_point.routes
+package com.example.configurations.routes
 
-import com.example.entry_point.plugins.inject
+import com.example.configurations.plugins.inject
 import com.example.module.notification.infrastructure.Notification
 import com.example.module.notification.infrastructure.NotificationPostController
-import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.server.application.call
+import io.ktor.server.request.receive
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.post
+
 
 fun Routing.notificationV1() {
     postNotification()

@@ -1,14 +1,12 @@
-package com.example.entry_point.plugins
+package com.example.configurations.plugins
 
-
-import com.example.entry_point.container.dependencies
 import io.ktor.events.EventDefinition
-import io.ktor.server.application.*
-import io.ktor.util.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationPlugin
+import io.ktor.server.application.ApplicationStopping
+import io.ktor.util.AttributeKey
 import org.koin.core.KoinApplication
-import org.koin.core.context.GlobalContext.startKoin
-import org.koin.core.context.GlobalContext.stopKoin
-import org.koin.core.module.Module
+import org.koin.core.context.GlobalContext
 
 /**
  * koin workaround https://github.com/InsertKoinIO/koin/issues/1257#issuecomment-1000856335
@@ -23,19 +21,13 @@ object KoinPlugin : ApplicationPlugin<Application, KoinApplication, Unit> {
         configure: KoinApplication.() -> Unit
     ) {
         val monitor = pipeline.environment.monitor
-        val koinApplication = startKoin(appDeclaration = configure)
+        val koinApplication = GlobalContext.startKoin(appDeclaration = configure)
         monitor.raise(EventDefinition(), koinApplication)
 
         monitor.subscribe(ApplicationStopping) {
             monitor.raise(EventDefinition(), koinApplication)
-            stopKoin()
+            GlobalContext.stopKoin()
             monitor.raise(EventDefinition(), koinApplication)
         }
-    }
-}
-
-fun Application.configureKoin(modules: List<Module> = emptyList()) {
-    install(KoinPlugin) {
-        modules(dependencies + modules)
     }
 }

@@ -1,6 +1,12 @@
 package com.example.module.product.application
 
-import com.example.module.product.domain.*
+import com.example.module.product.domain.ProductId
+import com.example.module.product.domain.ProductName
+import com.example.module.product.domain.ProductRepository
+import com.example.module.product.domain.ProductSearchService
+import com.example.module.product.domain.ProductPrice
+import com.example.module.product.domain.Product
+
 
 class ProductUpdater(
     private val repository: ProductRepository

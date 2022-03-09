@@ -33,7 +33,7 @@ class MySqlProductRepository : ProductRepository {
                 val product = DatabaseEntityManager.find(id = productId())
                 Result.success(product.asDomainProduct())
             } catch (ex: SQLException) {
-                Result.failure(ProductNotExists(id = productId()))
+                Result.failure(ProductNotExists(id = productId(), exception = ex.toString()))
             }
         }
     }
@@ -53,11 +53,12 @@ class MySqlProductRepository : ProductRepository {
                 val productUpdated = DatabaseEntityManager.update(product.asEntity())
                 Result.success(productUpdated.asDomainProduct())
             } catch (ex: SQLException) {
-                Result.failure(ProductNotExists(id = product.id()))
+                Result.failure(ProductNotExists(id = product.id(), exception = ex.toString()))
             }
         }
     }
 
+    @Suppress("MagicNumber")
     private suspend fun timeSimulate() = delay(2_000)
 }
 

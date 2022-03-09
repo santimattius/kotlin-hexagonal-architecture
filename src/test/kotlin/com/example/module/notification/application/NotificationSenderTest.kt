@@ -2,6 +2,8 @@ package com.example.module.notification.application
 
 import com.example.module.notification.domain.Notifier
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
@@ -20,14 +22,16 @@ class NotificationSenderTest {
             val text = stubNotificationText()
             val type = stubNotificationType()
 
-            `when`(notificationSender.invoke(text, type))
+            `when`(notificationSender(text, type))
                 .thenReturn(Result.success("Mock sender"))
 
             //When
             val result = notificationSender(text, type)
 
             //Then
-            assert(result.isSuccess)
+            assertThat(result.isSuccess, IsEqual(true))
+            assertThat(result.getOrNull(), IsEqual("Mock sender"))
+
             verify(notifier, times(1)).notify(text, type)
         }
     }

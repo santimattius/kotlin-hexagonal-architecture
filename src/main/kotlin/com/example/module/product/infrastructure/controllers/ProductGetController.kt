@@ -6,7 +6,7 @@ import com.example.module.product.domain.ProductId
 import com.example.module.product.infrastructure.Product
 import com.example.module.product.infrastructure.asDTO
 import com.example.module.product.infrastructure.asDTOs
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 
 class ProductGetController(
     private val productSearcher: ProductSearcher,
