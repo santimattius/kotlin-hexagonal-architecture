@@ -60,4 +60,11 @@ jobs:
           path: build/reports/jacoco/test
 
       - name: Upload Test Report
-        run: bash <(curl -s https://codecov.io/bash) -f "build/reports/jacoco/test/jacocoTestReport.xml"
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: build/reports/jacoco/test/jacocoTestReport.xml # optional
+          flags: unittests # optional
+          name: pull-request # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
