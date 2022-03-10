@@ -9,11 +9,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.Route
-import io.ktor.server.routing.Routing
-import io.ktor.server.routing.get
-import io.ktor.server.routing.post
-import io.ktor.server.routing.put
+import io.ktor.server.routing.*
 
 
 fun Routing.productV1() {
@@ -28,7 +24,7 @@ fun Route.getProduct() {
     get("/v1/product/{productId}") {
 
         val productId = call.parameters["productId"]
-        if (productId == null) {
+        if (productId.isNullOrBlank()) {
             call.respond(HttpStatusCode.BadRequest, "ProductId required")
         } else {
             val (code, response) = controller.get(id = productId)

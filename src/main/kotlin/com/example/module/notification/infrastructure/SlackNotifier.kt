@@ -8,7 +8,7 @@ import com.external.slack.SlackClient
 
 class SlackNotifier(
     hookUrl: String,
-    setting: Map<String, String>
+    setting: Map<String, String> = emptyMap()
 ) : Notifier {
 
     private val client = SlackClient(hookUrl, setting)

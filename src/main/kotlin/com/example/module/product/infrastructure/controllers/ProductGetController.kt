@@ -14,32 +14,18 @@ class ProductGetController(
 ) {
 
     suspend fun get(id: String): Pair<HttpStatusCode, Product?> {
-        return try {
-            val result = productSearcher.search(
-                id = ProductId(id)
-            )
-            result.fold(
-                onSuccess = { HttpStatusCode.Created to it.asDTO() },
-                onFailure = { HttpStatusCode.BadRequest to null }
-            )
-        } catch (ex: IllegalArgumentException) {
-            HttpStatusCode.BadRequest to null
-        }
+        val result = productSearcher.search(
+            id = ProductId(id)
+        )
+        return result.fold(
+            onSuccess = { HttpStatusCode.OK to it.asDTO() },
+            onFailure = { HttpStatusCode.BadRequest to null }
+        )
     }
 
 
     suspend fun get(): Pair<HttpStatusCode, List<Product>> {
-        return try {
-            val result = productCatalog.list()
-            result.fold(
-                onSuccess = { HttpStatusCode.OK to it.asDTOs() },
-                onFailure = { HttpStatusCode.BadRequest to emptyList() }
-            )
-        } catch (ex: IllegalArgumentException) {
-            HttpStatusCode.BadRequest to emptyList()
-        }
+        val result = productCatalog.list()
+        return HttpStatusCode.OK to result.getOrDefault(emptyList()).asDTOs()
     }
-
 }
-
-

@@ -14,7 +14,7 @@ import java.sql.SQLException
 /**
  * Adapter
  */
-class MySqlProductRepository : ProductRepository {
+class MySqlProductRepository(private val entityManager: DatabaseEntityManager) : ProductRepository {
 
     // Mutex to make writes to cached values thread-safe.
     private val latestProductMutex = Mutex()
@@ -22,7 +22,7 @@ class MySqlProductRepository : ProductRepository {
     override suspend fun all(): List<Product> {
         return latestProductMutex.withLock {
             timeSimulate()
-            DatabaseEntityManager.products().asDomainProduct()
+            entityManager.products().asDomainProduct()
         }
     }
 
@@ -30,7 +30,7 @@ class MySqlProductRepository : ProductRepository {
         return latestProductMutex.withLock {
             try {
                 timeSimulate()
-                val product = DatabaseEntityManager.find(id = productId())
+                val product = entityManager.find(id = productId())
                 Result.success(product.asDomainProduct())
             } catch (ex: SQLException) {
                 Result.failure(ProductNotExists(id = productId(), exception = ex.toString()))
@@ -41,7 +41,7 @@ class MySqlProductRepository : ProductRepository {
     override suspend fun save(product: Product): Result<Product> {
         return latestProductMutex.withLock {
             timeSimulate()
-            val productSaved = DatabaseEntityManager.save(product.asEntity())
+            val productSaved = entityManager.save(product.asEntity())
             Result.success(productSaved.asDomainProduct())
         }
     }
@@ -50,7 +50,7 @@ class MySqlProductRepository : ProductRepository {
         return latestProductMutex.withLock {
             try {
                 timeSimulate()
-                val productUpdated = DatabaseEntityManager.update(product.asEntity())
+                val productUpdated = entityManager.update(product.asEntity())
                 Result.success(productUpdated.asDomainProduct())
             } catch (ex: SQLException) {
                 Result.failure(ProductNotExists(id = product.id(), exception = ex.toString()))

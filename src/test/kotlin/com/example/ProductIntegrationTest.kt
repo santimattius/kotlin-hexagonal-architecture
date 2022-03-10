@@ -3,9 +3,14 @@ package com.example
 import com.example.module.product.domain.ProductRepository
 import com.example.module.product.infrastructure.Product
 import com.example.module.product.infrastructure.repositories.InMemoryProductRepository
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import com.example.module.product.infrastructure.repositories.stubProductDto
+import io.ktor.client.request.get
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.setBody
+import org.mockito.kotlin.mock
+import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -13,9 +18,9 @@ import kotlin.test.assertTrue
 class ProductIntegrationTest {
 
     @Test
-    fun getProducts() = acceptanceTest {
+    fun getProductsWithProducts() = acceptanceTest {
 
-        overrideDefinition {
+        testConfigure {
             single<ProductRepository> { FakeProductRepository() }
         }
 
@@ -27,8 +32,24 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun postProduct() = legacyAcceptanceTest {
-        overrideDefinition {
+    fun getProductWithValidId() = acceptanceTest {
+
+        testConfigure {
+            single<ProductRepository> { FakeProductRepository() }
+        }
+
+        val id = UUID.randomUUID().toString()
+
+        execute { client ->
+            val response = client.get("/v1/product/${id}")
+            assertEquals(HttpStatusCode.OK, response.status)
+            assertEquals(response.data<Product>().id, id)
+        }
+    }
+
+    @Test
+    fun postProductWhenProductCreated() = legacyAcceptanceTest {
+        testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
         }
 
@@ -42,9 +63,44 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun putProduct() = legacyAcceptanceTest {
+    fun postProductWhenProductBadRequest() = legacyAcceptanceTest {
+        testConfigure {
+            single<ProductRepository> { InMemoryProductRepository() }
+        }
 
-        overrideDefinition {
+        val response = post("/v1/product") {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(parse(Product(id = "", name = "", price = 0.0)).toString())
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, response.status())
+    }
+
+    @Test
+    fun postProductWhenFailProductCreation() = legacyAcceptanceTest {
+        //Mock repository with save fail
+        val repository: ProductRepository = mock {
+            onBlocking {
+                save(org.mockito.kotlin.any())
+            }.thenReturn(Result.failure(Exception()))
+        }
+
+        testConfigure {
+            single<ProductRepository> { repository }
+        }
+
+        val response = post("/v1/product") {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, response.status())
+    }
+
+    @Test
+    fun putProductWhenProductCreated() = legacyAcceptanceTest {
+
+        testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
         }
 
@@ -66,6 +122,49 @@ class ProductIntegrationTest {
         assertTrue(productUpdate != null)
         assertEquals(500.0, productUpdate.price)
     }
+
+    @Test
+    fun putProductWhenProductNoExistsBadRequest() = legacyAcceptanceTest {
+
+        testConfigure {
+            single<ProductRepository> { InMemoryProductRepository() }
+        }
+
+        val productCreated = stubProductDto()
+
+        val productUpdated = productCreated.copy(price = 500.0)
+
+        val responsePut = put("/v1/product") {
+            header(ContentType.Application.Json)
+            body(productUpdated)
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, responsePut.status())
+    }
+
+    @Test
+    fun putProductWhenProductBadRequest() = legacyAcceptanceTest {
+
+        testConfigure {
+            single<ProductRepository> { InMemoryProductRepository() }
+        }
+
+        val responsePost = post("/v1/product") {
+            header(ContentType.Application.Json)
+            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+        }
+        val productCreated = responsePost.data<Product>()
+        assertTrue(productCreated != null)
+
+        val productUpdated = productCreated.copy(name = " ", price = 0.0)
+
+        val responsePut = put("/v1/product") {
+            header(ContentType.Application.Json)
+            body(productUpdated)
+        }
+        assertEquals(HttpStatusCode.BadRequest, responsePut.status())
+    }
+
 }
 
 

@@ -5,7 +5,7 @@ import com.example.module.shared.isNotEmptyOrNotBlack
 @JvmInline
 value class ProductId(private val value: String) {
     init {
-        check(value.isNotEmptyOrNotBlack()) {
+        require(value.isNotEmptyOrNotBlack()) {
             "ProductId is required!!"
         }
     }
@@ -16,7 +16,7 @@ value class ProductId(private val value: String) {
 @JvmInline
 value class ProductName(private val value: String) {
     init {
-        check(value.isNotEmptyOrNotBlack()) {
+        require(value.isNotEmptyOrNotBlack()) {
             "ProductName is required!!"
         }
     }
@@ -27,7 +27,7 @@ value class ProductName(private val value: String) {
 @JvmInline
 value class ProductPrice(private val value: Double) {
     init {
-        check(value > 0) {
+        require(value > 0) {
             "Price invalid!"
         }
     }

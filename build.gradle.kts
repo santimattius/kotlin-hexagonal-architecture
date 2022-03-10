@@ -61,8 +61,34 @@ detekt {
 }
 
 tasks.jacocoTestReport {
+    dependsOn(tasks.test)
     reports {
         xml.required.set(true)
         html.required.set(true)
     }
+    finalizedBy(tasks.jacocoTestCoverageVerification)
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(
+                "**/configurations/*",
+                "**/external/*",
+                "**/infrastructure/Product.class"
+            )
+        }
+    )
 }
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            classDirectories.setFrom(sourceSets.main.get().output.asFileTree.matching {
+                exclude(
+                    "**/configurations/*",
+                    "**/external/*",
+                    "**/infrastructure/Product.class"
+                )
+            })
+        }
+    }
+}
+

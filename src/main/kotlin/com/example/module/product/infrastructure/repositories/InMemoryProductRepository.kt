@@ -9,6 +9,7 @@ import com.example.module.product.infrastructure.asDomainProduct
 import com.example.module.product.infrastructure.asEntity
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.jetbrains.annotations.TestOnly
 import com.example.module.product.infrastructure.Product as ProductEntity
 
 /**
@@ -57,6 +58,16 @@ class InMemoryProductRepository : ProductRepository {
                 Result.success(product)
             }
         }
+    }
+
+    @TestOnly
+    fun testingInit(products: List<Product>) {
+        this.productCached.addAll(products.map { it.asEntity() })
+    }
+
+    @TestOnly
+    fun testingClean() {
+        this.productCached.clear()
     }
 }
 

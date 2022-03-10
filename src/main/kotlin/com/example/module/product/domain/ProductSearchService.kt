@@ -5,10 +5,6 @@ class ProductSearchService(
 ) {
 
     suspend fun search(id: ProductId): Result<Product> {
-        val result = repository.find(id)
-        return result.fold(
-            onSuccess = { product -> Result.success(product) },
-            onFailure = { Result.failure(ProductNotExists(id())) }
-        )
+        return repository.find(id)
     }
 }

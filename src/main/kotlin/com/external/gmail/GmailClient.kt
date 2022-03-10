@@ -10,7 +10,7 @@ class GmailClient(
             """
             Subject: ${email.subject}
             Body: ${email.body}  
-            User: ${user}  
+            User: $user  
             Password: ${password.length}  
             """
         )

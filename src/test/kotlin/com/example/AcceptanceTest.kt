@@ -3,10 +3,13 @@ package com.example
 import com.example.configurations.plugins.configureKoin
 import com.example.configurations.plugins.configureRouting
 import com.example.configurations.plugins.configureSerialization
-import io.ktor.client.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.server.application.*
+import io.ktor.client.HttpClient
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.server.application.Application
 import io.ktor.server.testing.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -19,7 +22,7 @@ suspend fun ApplicationTestBuilder.execute(call: suspend (client: HttpClient) ->
     call(client)
 }
 
-fun ApplicationTestBuilder.overrideDefinition(moduleDeclaration: ModuleDeclaration) {
+fun ApplicationTestBuilder.testConfigure(moduleDeclaration: ModuleDeclaration) {
     application {
         configure(moduleDeclaration)
     }
@@ -59,7 +62,7 @@ inline fun <reified T> parse(value: T): JsonElement {
 
 fun <R> legacyAcceptanceTest(test: TestApplicationEngine.() -> R): R = withTestApplication(test)
 
-fun TestApplicationEngine.overrideDefinition(moduleDeclaration: ModuleDeclaration) {
+fun TestApplicationEngine.testConfigure(moduleDeclaration: ModuleDeclaration = {}) {
     application.configure(moduleDeclaration)
 }
 

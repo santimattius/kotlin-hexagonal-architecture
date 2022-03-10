@@ -9,15 +9,13 @@ import kotlin.random.Random
 object DatabaseEntityManager {
 
     @Suppress("MagicNumber")
-    private val products: MutableList<Product> by lazy {
-        (1..10).map {
-            Product(
-                id = UUID.randomUUID().toString(),
-                name = "Product $it",
-                price = Random.nextDouble(from = 100.0, until = 1000.0)
-            )
-        }.toMutableList()
-    }
+    private val products: MutableList<Product> = (1..10).map {
+        Product(
+            id = UUID.randomUUID().toString(),
+            name = "Product $it",
+            price = Random.nextDouble(from = 100.0, until = 1000.0)
+        )
+    }.toMutableList()
 
     fun products() = products
 
