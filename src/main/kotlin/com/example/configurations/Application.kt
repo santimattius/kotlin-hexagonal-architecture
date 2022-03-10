@@ -6,7 +6,7 @@ import com.example.configurations.plugins.configureSerialization
 import io.ktor.server.application.Application
 import io.ktor.server.netty.EngineMain
 
-//TODO:legacy mode
+/*legacy mode*/
 //fun main() {
 //    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
 //        module()
