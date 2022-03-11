@@ -5,10 +5,19 @@ import com.example.module.notification.domain.NotificationType
 import com.example.module.notification.domain.Notifier
 import com.external.slack.Message
 import com.external.slack.SlackClient
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
+private const val SLACK_DELAY = 1_000L
+/**
+ * Notifier adapter for Slack implementation
+ */
 class SlackNotifier(
     hookUrl: String,
-    setting: Map<String, String> = emptyMap()
+    setting: Map<String, String> = emptyMap(),
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : Notifier {
 
     private val client = SlackClient(hookUrl, setting)
@@ -18,7 +27,10 @@ class SlackNotifier(
             channel = "hardcoded-channel",
             content = text()
         )
-        client.send(message)
-        return Result.success("Slack")
+        return withContext(dispatcher) {
+            delay(SLACK_DELAY)
+            client.send(message)
+            Result.success("Slack")
+        }
     }
 }

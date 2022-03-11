@@ -34,7 +34,7 @@ private fun Application.configure(moduleDeclaration: ModuleDeclaration) {
     configureRouting()
 }
 
-fun acceptanceTest(block: suspend ApplicationTestBuilder.() -> Unit) = testApplication(block)
+fun integrationTest(block: suspend ApplicationTestBuilder.() -> Unit) = testApplication(block)
 
 
 suspend inline fun <reified T> HttpResponse.data(): T {
@@ -60,7 +60,7 @@ inline fun <reified T> parse(value: T): JsonElement {
     return json.encodeToJsonElement(value)
 }
 
-fun <R> legacyAcceptanceTest(test: TestApplicationEngine.() -> R): R = withTestApplication(test)
+fun <R> legacyIntegrationTest(test: TestApplicationEngine.() -> R): R = withTestApplication(test)
 
 fun TestApplicationEngine.testConfigure(moduleDeclaration: ModuleDeclaration = {}) {
     application.configure(moduleDeclaration)

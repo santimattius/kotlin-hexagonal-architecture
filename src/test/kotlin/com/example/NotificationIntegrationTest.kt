@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class NotificationIntegrationTest {
 
     @Test
-    fun postNotificationCreated() = legacyAcceptanceTest {
+    fun postNotificationCreated() = legacyIntegrationTest {
 
         testConfigure()
 
@@ -25,7 +25,7 @@ class NotificationIntegrationTest {
     }
 
     @Test
-    fun postNotificationEmailCreated() = legacyAcceptanceTest {
+    fun postNotificationEmailCreated() = legacyIntegrationTest {
 
         testConfigure {
             single<Notifier> { EmailNotifier(user = "user", password = "password") }
@@ -41,7 +41,7 @@ class NotificationIntegrationTest {
     }
 
     @Test
-    fun postNotificationSlackCreated() = legacyAcceptanceTest {
+    fun postNotificationSlackCreated() = legacyIntegrationTest {
 
         testConfigure {
             single<Notifier> { SlackNotifier(hookUrl = "slack/notifier/test") }
@@ -57,7 +57,7 @@ class NotificationIntegrationTest {
     }
 
     @Test
-    fun postNotificationWithEmptyText() = legacyAcceptanceTest {
+    fun postNotificationWithEmptyText() = legacyIntegrationTest {
 
         testConfigure()
 

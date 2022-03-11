@@ -30,7 +30,7 @@ class ProductCreatorTest {
             assertTrue(result.isSuccess)
             assertEquals(result.getOrNull(), product)
 
-            verify(repository, times(1)).save(product)
+            verify(repository).save(product)
         }
     }
 }
