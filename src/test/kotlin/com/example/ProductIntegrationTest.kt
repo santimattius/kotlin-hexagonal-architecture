@@ -18,7 +18,7 @@ import kotlin.test.assertTrue
 class ProductIntegrationTest {
 
     @Test
-    fun getProductsWithProducts() = acceptanceTest {
+    fun getProductsWithProducts() = integrationTest {
 
         testConfigure {
             single<ProductRepository> { FakeProductRepository() }
@@ -32,7 +32,7 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun getProductWithValidId() = acceptanceTest {
+    fun getProductWithValidId() = integrationTest {
 
         testConfigure {
             single<ProductRepository> { FakeProductRepository() }
@@ -48,14 +48,14 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun postProductWhenProductCreated() = legacyAcceptanceTest {
+    fun postProductWhenProductCreated() = legacyIntegrationTest {
         testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
         }
 
         val response = post("/v1/product") {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+            body(Product(name = "Test Product", price = 200.0))
         }
 
         assertEquals(HttpStatusCode.Created, response.status())
@@ -63,21 +63,21 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun postProductWhenProductBadRequest() = legacyAcceptanceTest {
+    fun postProductWhenProductBadRequest() = legacyIntegrationTest {
         testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
         }
 
         val response = post("/v1/product") {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody(parse(Product(id = "", name = "", price = 0.0)).toString())
+            body(Product(id = "", name = "", price = 0.0))
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status())
     }
 
     @Test
-    fun postProductWhenFailProductCreation() = legacyAcceptanceTest {
+    fun postProductWhenFailProductCreation() = legacyIntegrationTest {
         //Mock repository with save fail
         val repository: ProductRepository = mock {
             onBlocking {
@@ -91,14 +91,14 @@ class ProductIntegrationTest {
 
         val response = post("/v1/product") {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+            body(Product(name = "Test Product", price = 200.0))
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status())
     }
 
     @Test
-    fun putProductWhenProductCreated() = legacyAcceptanceTest {
+    fun putProductWhenProductCreated() = legacyIntegrationTest {
 
         testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
@@ -106,7 +106,7 @@ class ProductIntegrationTest {
 
         val responsePost = post("/v1/product") {
             header(ContentType.Application.Json)
-            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+            body(Product(name = "Test Product", price = 200.0))
         }
         val productCreated = responsePost.data<Product>()
         assertTrue(productCreated != null)
@@ -124,7 +124,7 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun putProductWhenProductNoExistsBadRequest() = legacyAcceptanceTest {
+    fun putProductWhenProductNoExistsBadRequest() = legacyIntegrationTest {
 
         testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
@@ -143,7 +143,7 @@ class ProductIntegrationTest {
     }
 
     @Test
-    fun putProductWhenProductBadRequest() = legacyAcceptanceTest {
+    fun putProductWhenProductBadRequest() = legacyIntegrationTest {
 
         testConfigure {
             single<ProductRepository> { InMemoryProductRepository() }
@@ -151,7 +151,7 @@ class ProductIntegrationTest {
 
         val responsePost = post("/v1/product") {
             header(ContentType.Application.Json)
-            setBody(parse(Product(name = "Test Product", price = 200.0)).toString())
+            body(Product(name = "Test Product", price = 200.0))
         }
         val productCreated = responsePost.data<Product>()
         assertTrue(productCreated != null)

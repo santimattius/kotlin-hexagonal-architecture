@@ -19,12 +19,11 @@ class ProductUpdater(
 //        val result = productSearcher.search(id)
 //        return result.fold(
 //            onSuccess = { oldProduct ->
-//                val productUpdate = oldProduct
+//                val productUpdated = oldProduct
 //                    .updateName(name = name)
 //                    .updatePrice(price = price)
 //
-//                repository.update(productUpdate)
-//                Result.success(productUpdate)
+//                repository.update(productUpdated)
 //            },
 //            onFailure = { exception ->
 //                Result.failure(exception)
@@ -40,13 +39,11 @@ class ProductUpdater(
         val result = productSearcher.search(id)
         return result.fold(
             onSuccess = { oldProduct ->
-                val productUpdate = oldProduct
+                val productUpdated = oldProduct
                     .updateName(name)
                     .updatePrice(price)
 
-                repository.update(productUpdate)
-
-                Result.success(productUpdate)
+                repository.update(productUpdated)
             },
             onFailure = { exception ->
                 Result.failure(exception)
