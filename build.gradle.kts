@@ -3,17 +3,20 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val koinVersion: String by project
 val mockkVersion: String by project
+val hamcrestVersion: String by project
+val mockitoVersion: String by project
+val junitVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("io.gitlab.arturbosch.detekt").version("1.20.0-RC1")
+    kotlin("jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
+    id("io.gitlab.arturbosch.detekt").version("1.20.0")
     jacoco
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
 }
 
 group = "com.santimattius"
@@ -36,11 +39,11 @@ dependencies {
     // Koin for Ktor
     implementation("io.insert-koin:koin-ktor:$koinVersion")
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:$junitVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoVersion")
+    testImplementation("org.hamcrest:hamcrest:$hamcrestVersion")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")

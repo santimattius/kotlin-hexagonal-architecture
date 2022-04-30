@@ -1,5 +1,6 @@
 package com.example.configurations.container
 
+import com.example.module.healthcheck.HealthCheckController
 import com.example.module.notification.application.NotificationSender
 import com.example.module.notification.domain.Notifier
 import com.example.module.notification.infrastructure.NotificationPostController
@@ -50,6 +51,7 @@ private val infrastructure = module {
     }
     //factory<Notifier> { EmailNotifier(user = "user", password = "password") }
     factory { NotificationPostController(notificationSender = get<NotificationSender>()) }
+    factory { HealthCheckController() }
 }
 
 val dependencies = listOf(application, domain, infrastructure)
