@@ -22,13 +22,13 @@ suspend fun ApplicationTestBuilder.execute(call: suspend (client: HttpClient) ->
     call(client)
 }
 
-fun ApplicationTestBuilder.testConfigure(moduleDeclaration: ModuleDeclaration) {
+fun ApplicationTestBuilder.testConfigure(moduleDeclaration: ModuleDeclaration = {}) {
     application {
         configure(moduleDeclaration)
     }
 }
 
-private fun Application.configure(moduleDeclaration: ModuleDeclaration) {
+private fun Application.configure(moduleDeclaration: ModuleDeclaration = {}) {
     configureSerialization()
     configureKoin(listOf(module(moduleDeclaration = moduleDeclaration)))
     configureRouting()

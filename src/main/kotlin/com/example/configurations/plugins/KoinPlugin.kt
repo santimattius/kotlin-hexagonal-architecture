@@ -4,6 +4,7 @@ import io.ktor.events.EventDefinition
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationPlugin
 import io.ktor.server.application.ApplicationStopping
+import io.ktor.server.application.Plugin
 import io.ktor.util.AttributeKey
 import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext
@@ -11,7 +12,7 @@ import org.koin.core.context.GlobalContext
 /**
  * koin workaround https://github.com/InsertKoinIO/koin/issues/1257#issuecomment-1000856335
  */
-object KoinPlugin : ApplicationPlugin<Application, KoinApplication, Unit> {
+object KoinPlugin : Plugin<Application, KoinApplication, Unit> {
 
     override val key: AttributeKey<Unit>
         get() = AttributeKey("Koin")
