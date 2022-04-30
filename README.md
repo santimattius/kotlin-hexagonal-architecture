@@ -2,7 +2,12 @@
 
 # kotlin-hexagonal-architecture
 
+
 Example project applying hexagonal architecture in kotlin.
+
+<p align="center">
+  <img width="500" src="https://github.com/santimattius/kotlin-hexagonal-architecture/blob/master/images/arch_hexa.png?raw=true" alt="Layers"/>
+</p>
 
 ## Layers
 
