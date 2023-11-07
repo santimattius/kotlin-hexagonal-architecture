@@ -3,15 +3,11 @@ package com.example
 import com.example.configurations.plugins.configureKoin
 import com.example.configurations.plugins.configureRouting
 import com.example.configurations.plugins.configureSerialization
-import io.ktor.client.HttpClient
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
-import io.ktor.server.application.Application
+import io.ktor.client.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.testing.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.encodeToJsonElement
@@ -60,6 +56,11 @@ inline fun <reified T> parse(value: T): JsonElement {
     return json.encodeToJsonElement(value)
 }
 
+@Deprecated(
+    message = "use integrationTest",
+    level = DeprecationLevel.WARNING,
+    replaceWith = ReplaceWith("integrationTest")
+)
 fun <R> legacyIntegrationTest(test: TestApplicationEngine.() -> R): R = withTestApplication(test)
 
 fun TestApplicationEngine.testConfigure(moduleDeclaration: ModuleDeclaration = {}) {

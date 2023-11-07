@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
@@ -9,8 +11,8 @@ val junitVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.6.21"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
+    kotlin("jvm") version "1.9.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
     id("io.gitlab.arturbosch.detekt").version("1.20.0")
     jacoco
 }
@@ -61,6 +63,12 @@ detekt {
     baseline = file("$rootDir/detekt-baseline.xml")
     autoCorrect = true
     buildUponDefaultConfig = true
+}
+
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 }
 
 tasks.jacocoTestReport {

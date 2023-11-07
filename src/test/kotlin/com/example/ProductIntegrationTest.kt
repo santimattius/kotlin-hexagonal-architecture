@@ -8,7 +8,6 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.testing.setBody
 import org.mockito.kotlin.mock
 import java.util.UUID
 import kotlin.test.Test
